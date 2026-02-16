@@ -1,0 +1,161 @@
+syntax = "proto3";
+
+package rsj.v3.sovereign;
+
+option go_package = "./proto";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/empty.proto";
+
+// Service Definition
+service SovereignNode {
+  // Agent Lifecycle
+  rpc RegisterAgent (RegisterAgentRequest) returns (AgentProfile);
+  rpc SendHeartbeat (HeartbeatRequest) returns (HeartbeatResponse);
+  rpc UpdateStatus (UpdateStatusRequest) returns (google.protobuf.Empty);
+
+  // Directives (Command & Control)
+  rpc DispatchDirective (Directive) returns (DirectiveAck);
+  rpc StreamLogs (LogSubscription) returns (stream LogEntry);
+
+  // Memory & State
+  rpc SyncState (StateEntry) returns (StateAck);
+  rpc RetrieveContext (ContextQuery) returns (StateEntry);
+
+  // Inter-Link (Encrypted Comms)
+  rpc SendSecureMessage (EncryptedPacket) returns (google.protobuf.Empty);
+  rpc PollInbox (InboxQuery) returns (stream EncryptedPacket);
+
+  // Worker Evidence (Merged from WorkerNode)
+  rpc SubmitEvidence (EvidencePacket) returns (WorkerResponse);
+}
+
+// -------------------------------------------------------------------
+// Message Definitions
+// -------------------------------------------------------------------
+
+message AgentProfile {
+  string agent_id = 1;
+  int32 sovereign_level = 2; // Rank in the hierarchy
+  string parent_agent_id = 3;
+  repeated string capabilities = 4;
+  AgentState current_state = 5;
+  google.protobuf.Timestamp joined_at = 6;
+}
+
+enum AgentState {
+  STATE_UNKNOWN = 0;
+  STATE_IDLE = 1;
+  STATE_PROCESSING = 2;
+  STATE_ERROR = 3;
+  STATE_OFFLINE = 4;
+}
+
+message RegisterAgentRequest {
+  string agent_id = 1;
+  int32 sovereign_level = 2;
+  repeated string capabilities = 3;
+}
+
+message HeartbeatRequest {
+  string agent_id = 1;
+  float load_average = 2;
+  int64 uptime_seconds = 3;
+}
+
+message HeartbeatResponse {
+  bool acknowledged = 1;
+  bool pending_directives = 2; // Signal if agent needs to pull work
+}
+
+message UpdateStatusRequest {
+  string agent_id = 1;
+  AgentState new_state = 2;
+}
+
+// -------------------------------------------------------------------
+// Directives
+// -------------------------------------------------------------------
+
+message Directive {
+  string directive_id = 1;
+  string source_agent_id = 2;
+  string target_agent_id = 3;
+  int32 priority = 4; // 0 = Low, 100 = Critical
+  google.protobuf.Struct execution_context = 5; // Flexible JSON payload
+  int64 timeout_ms = 6;
+  google.protobuf.Timestamp created_at = 7;
+}
+
+message DirectiveAck {
+  string directive_id = 1;
+  bool accepted = 2;
+  string reason = 3;
+}
+
+message LogSubscription {
+  string target_directive_id = 1;
+}
+
+message LogEntry {
+  google.protobuf.Timestamp timestamp = 1;
+  string log_level = 2;
+  string message = 3;
+}
+
+// -------------------------------------------------------------------
+// Memory & Inter-Link
+// -------------------------------------------------------------------
+
+message StateEntry {
+  string key = 1;
+  bytes value = 2; // Raw bytes for maximum flexibility
+  string owner_agent_id = 3;
+  AccessLevel access_level = 4;
+  google.protobuf.Timestamp last_updated = 5;
+}
+
+message StateAck {
+  bool success = 1;
+  string checksum = 2;
+}
+
+message ContextQuery {
+  string key = 1;
+  string requestor_agent_id = 2;
+}
+
+enum AccessLevel {
+  ACCESS_READ = 0;
+  ACCESS_WRITE = 1;
+  ACCESS_ADMIN = 2;
+}
+
+message EncryptedPacket {
+  string recipient_id = 1;
+  string sender_id = 2;
+  bytes encrypted_payload = 3;
+  string signature = 4; // Verification signature
+}
+
+message InboxQuery {
+  string agent_id = 1;
+  bool fetch_all = 2;
+}
+
+// -------------------------------------------------------------------
+// Worker Evidence Messages
+// -------------------------------------------------------------------
+
+message EvidencePacket {
+  string hash = 1;
+  string raw_data = 2;
+  string timestamp = 3;
+}
+
+message WorkerResponse {
+  string status = 1;
+  string message = 2;
+  int32 processing_time_ms = 3;
+}

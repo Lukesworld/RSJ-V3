@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package rsj;
+option go_package = "./proto";
+
+// The data structure for the evidence packet
+message EvidencePacket {
+  string hash = 1;
+  string raw_data = 2;
+  string timestamp = 3;
+}
+
+// The response from the worker node
+message WorkerResponse {
+  string status = 1;
+  string message = 2;
+  int32 processing_time_ms = 3;
+}
+
+// The Service Definition
+service WorkerNode {
+  rpc SubmitEvidence (EvidencePacket) returns (WorkerResponse);
+}

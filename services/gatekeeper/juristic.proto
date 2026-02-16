@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package juristic.v1;
+
+// This line fixes the "unable to determine Go import path" error
+option go_package = "rsj-v3/juristic/juristic";
+
+service JuristicService {
+  rpc CommitState(StateRequest) returns (StateResponse);
+}
+
+message StateRequest {
+  string case_ref = 1;
+  string doctrine = 2;
+  string action = 3;
+}
+
+message StateResponse {
+  string status = 1;
+  string message = 2;
+}
