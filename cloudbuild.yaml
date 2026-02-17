@@ -1,0 +1,13 @@
+steps:
+  # Build the container image using Kaniko for cache efficiency
+  - name: 'gcr.io/kaniko-project/executor:latest'
+    args:
+      - --destination=gcr.io/${PROJECT_ID}/rsj-worker:${COMMIT_SHA}
+      - --destination=gcr.io/${PROJECT_ID}/rsj-worker:latest
+      - --cache=true
+      - --cache-ttl=24h
+      - --context=dir://.
+      - --dockerfile=services/cloud-worker/Dockerfile
+timeout: '1200s'
+options:
+  machineType: 'E2_HIGHCPU_8'

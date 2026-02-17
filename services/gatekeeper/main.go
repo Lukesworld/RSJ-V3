@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	pb "rsj-v3/juristic/juristic"
+	pb "rsj-v3-monorepo/pkg/juristic"
 )
 
 type server struct {

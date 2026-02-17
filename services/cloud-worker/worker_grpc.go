@@ -7,7 +7,7 @@ import (
 	"net"
 
 	"google.golang.org/grpc"
-	pb "rsj-worker/proto"
+	pb "rsj-v3-monorepo/pkg/worker"
 )
 
 type server struct {
