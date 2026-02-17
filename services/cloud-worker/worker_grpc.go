@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"os"
 
 	"google.golang.org/grpc"
 	pb "rsj-v3-monorepo/pkg/worker"
@@ -26,7 +27,11 @@ func (s *server) SubmitEvidence(ctx context.Context, in *pb.EvidencePacket) (*pb
 }
 
 func main() {
-	lis, err := net.Listen("tcp", ":50051")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "50051"
+	}
+	lis, err := net.Listen("tcp", ":"+port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -34,7 +39,7 @@ func main() {
 	s := grpc.NewServer()
 	pb.RegisterWorkerNodeServer(s, &server{})
 
-	log.Printf("RSJ-V3.0 locked and listening on :50051")
+	log.Printf("RSJ-V3.0 locked and listening on :%s", port)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
