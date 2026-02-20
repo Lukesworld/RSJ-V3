@@ -1,0 +1,29 @@
+name: Port Software Catalog
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  report-to-port:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Port Sender - Report Service
+        uses: port-labs/port-sender@v0.2.14
+        with:
+          port_client_id: ${{ secrets.PORT_CLIENT_ID }}
+          port_client_secret: ${{ secrets.PORT_CLIENT_SECRET }}
+          operation_kind: scorecard_report
+          blueprint: rsj-service
+          scorecard: production-readiness
+          # Example filter for Newman Ventures services
+          filter_rule: '{"property": "$domain","operator": "containsAny","value": ["newmanventures.io"]}'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_repository: ${{ github.repository }}
+
+      - name: Log Integration Success
+        run: echo "RSJ-V3 Service Metadata Synced with newmanventures.io Catalog"

@@ -1,0 +1,4 @@
+*
+!Dockerfile
+!worker_grpc.go
+!proto/

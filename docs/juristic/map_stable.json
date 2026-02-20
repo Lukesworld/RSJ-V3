@@ -1,0 +1,28 @@
+{
+  "project_root": "/data/data/com.termux/files/home/projects/web/rsj-v3-monorepo",
+  "components": {
+    "juristic_gate": {
+      "type": "gRPC Service",
+      "path": "juristic/",
+      "port": 50053,
+      "grpc_services": ["rsj.v3.sovereign.SovereignNode"],
+      "dependencies": ["google.golang.org/grpc", "github.com/pquerna/otp/totp"],
+      "sockets": ["/data/data/com.termux/files/usr/tmp/juristic_gate.sock"]
+    },
+    "mesh_network": {
+      "type": "Python/Go Edge Nodes",
+      "path": "mesh/",
+      "dependencies": ["grpcio", "protobuf"]
+    }
+  },
+  "interface_contracts": {
+    "proto_files": [
+      "proto/juristic.proto",
+      "proto/rsj.proto"
+    ]
+  },
+  "active_development": {
+    "current_focus": "Juristic Gatekeeper Stabilization",
+    "locked_files": ["juristic/main.go"]
+  }
+}

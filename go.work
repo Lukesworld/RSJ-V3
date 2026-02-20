@@ -1,8 +1,16 @@
 go 1.25.6
 
 use (
+	./cmd/audit-engine
+	./cmd/mesh-node
+	./cmd/rsj-agent
+	./cmd/rsj-guardian
+	./pkg/audit
+	./pkg/auth
 	./pkg/juristic
 	./pkg/worker
+	./pkg/workerpool
 	./proto
+	./services/cloud-worker
 	./services/gatekeeper
 )

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package proto;
+option go_package = "rsj-worker/proto";
+
+message EvidencePacket {
+  string hash = 1;
+  string rawData = 2;
+  string timestamp = 3;
+}
+
+message SecureResponse {
+  string status = 1;
+  int64 processingTimeMs = 2;
+}
+
+service WorkerNode {
+  rpc SubmitEvidence(EvidencePacket) returns (SecureResponse);
+}

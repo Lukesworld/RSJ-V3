@@ -1,0 +1,12 @@
+golang.org/x/net v0.33.0 h1:74SYHlV8BIgHIBYjJ2bTxKQVDZZ9RPmkXaZBqSKuRNU=
+golang.org/x/net v0.33.0/go.mod h1:HXLR5J+9DxmrqMwG9qjGCxZ+zKXxBru04zlTvWlWuN4=
+golang.org/x/sys v0.28.0 h1:Fksou7UEQUWlKvIdsqzJmUmCX3cZuD2+P3XyyzwMhlA=
+golang.org/x/sys v0.28.0/go.mod h1:/VUhepiaJMQUp4+27e1lZJzKqkXT6lcJnqG4BqLgS/o=
+golang.org/x/text v0.21.0 h1:zyQAAkrwaneQ066sspRyJaG9VNi/YJ1NfzcGB3hZ/qo=
+golang.org/x/text v0.21.0/go.mod h1:4IBbMaMmOPCJ8SecivzSH54+73PCFmPWxNTLm+vZkEQ=
+google.golang.org/genproto/googleapis/rpc v0.0.0-20250106144421-5f5ef82da422 h1:R00/ThphT1QpXzr3gg5mjS1BPvLjKnT8IJHP+FlO9z0=
+google.golang.org/genproto/googleapis/rpc v0.0.0-20250106144421-5f5ef82da422/go.mod h1:Yt+wjgyVH3uZ4n5vNPQ4MnBn9gwBEpYqVQ6lR5/zzp0=
+google.golang.org/grpc v1.78.0 h1:yQq+tPZ2mUJIoOWcSTJ79XpRqpZnA9pRKZqBLK0HBBo=
+google.golang.org/grpc v1.78.0/go.mod h1:ncgs4c2KUYl8P8XRTV1n4xEyLy9HdbxFrV7F3q0dRz8=
+google.golang.org/protobuf v1.36.11 h1:3iy6nlqt7Q2o4vV/OsDZXdKw6N0PEDu5fMfxXriyk04=
+google.golang.org/protobuf v1.36.11/go.mod h1:9fA7Ob0pmnwhb644+1+CVWFRbNajQ6iRojtC/QF5bRE=
